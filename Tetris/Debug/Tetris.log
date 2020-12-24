@@ -1,0 +1,10 @@
+﻿  main.cpp
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(83,21): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(87,22): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(96,23): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(696,22): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(699,22): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(700,22): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(701,22): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(749): warning C4715: 'Pyramid::downBound': not all control paths return a value
+  Tetris.vcxproj -> D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Debug\Tetris.exe
