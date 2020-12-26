@@ -115,6 +115,31 @@ public:
 
 	}
 
+	// Gamer Over Check
+	bool checkOver() const {
+
+		for (int i = 1; i < width - 1; i++) {
+			if (board[1][i] != ' ') return true;
+		}
+
+		int emptyRows = 0;
+		for (int i = 1; i < height - 1; i++) {
+		
+			bool filled = false;
+
+			for (int j = 1; j < width - 1 && !filled; j++)
+				if (board[i][j] != ' ') filled = true;
+
+			emptyRows += (!filled);
+
+		}
+
+		if (emptyRows < 3) return true;
+
+		return false;
+
+	}
+
 	// Getters & Setters
 	string* getBoard() const {
 		return board;
@@ -733,7 +758,6 @@ public:
 
 	}
 
-
 	void moveDown(Board& board) {
 
 		if (tilt == 0) {
@@ -1248,12 +1272,1515 @@ public:
 };
 
 
+// The L Piece
+class L : public Piece {
+
+public:
+
+	L() {
+
+		piece = new string[3];
+
+		piece[0].push_back(char(177));
+		
+		piece[1].push_back(char(177));
+
+		piece[2].push_back(char(177));
+		piece[2].push_back(char(177));
+
+	}
+
+	void print(Board& board) {
+	
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			gameboard[yPos + 1][xPos + 1] = piece[0][0];
+
+			gameboard[yPos + 2][xPos + 1] = piece[1][0];
+
+			gameboard[yPos + 3][xPos + 1] = piece[2][0];
+			gameboard[yPos + 3][xPos + 2] = piece[2][1];
+		
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = piece[0][i];
+			gameboard[yPos + 2][xPos + 1] = piece[1][0];
+
+		}
+		else if (tilt == 2) {
+
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = piece[0][0];
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 2 + i][xPos + 2] = piece[0][0];
+
+
+		}
+		else if (tilt == 3) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = piece[0][0];
+
+			gameboard[yPos + 1][xPos + 3] = piece[0][0];
+
+
+		}
+
+
+
+	}
+
+	void moveDown(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+			gameboard[yPos + 3][xPos + 2] = ' ';
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+			gameboard[yPos + 2][xPos + 1] = ' ';
+
+		}
+		else if (tilt == 2) {
+
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 2 + i][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 3) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+
+			gameboard[yPos + 1][xPos + 3] = ' ';
+
+
+		}
+
+		++yPos;
+		print(board);
+	
+	}
+	
+	bool downBound(const Board& board) const {
+		
+		string* gameboard = board.getBoard();
+
+
+
+		if (tilt == 0) {
+
+			for (int i = 0; i < 2; i++) {
+				if (gameboard[yPos + 4][xPos + 1 + i] != ' ')
+					return true;
+			}
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 3][xPos + 1] != ' ' ||
+				gameboard[yPos + 2][xPos + 2] != ' ' ||
+				gameboard[yPos + 2][xPos + 2] != ' ') {
+				return true;
+			}
+
+		}
+		else if (tilt == 2) {
+
+			if (gameboard[yPos + 4][xPos + 2] != ' ' ||
+				gameboard[yPos + 2][xPos + 1] != ' ')
+				return true;
+
+		}
+		else if (tilt == 3) {
+
+			for (int i = 0; i < 3; i++)
+				if (gameboard[yPos + 3][xPos + 1 + i] != ' ')
+					return true;
+
+		}
+
+		return false;
+
+	}
+	
+	bool rightBound(const Board& board) const {
+		
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			if (gameboard[yPos + 1][xPos + 2] != ' ' || gameboard[yPos + 2][xPos + 2] != ' ' || gameboard[yPos + 3][xPos + 3] != ' ')
+				return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 1][xPos + 4] != ' ' || gameboard[yPos + 2][xPos + 2] != ' ')
+				return true;
+
+
+		}
+		else if (tilt == 2) {
+
+			for (int i = 0; i < 3; i++) {
+				if (gameboard[yPos + 1][xPos + 3] != ' ')
+					return true;
+			}
+
+
+		}
+		else if (tilt == 3) {
+
+			for (int i = 0; i < 2; i++) {
+				if (gameboard[yPos + 1 + i][xPos + 4] != ' ')
+					return true;
+			}
+
+		}
+
+		return false;
+
+	}
+	
+	bool leftBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			for (int i = 0; i < 3; i++)
+				if (gameboard[yPos + 1 + i][xPos] != ' ')
+					return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 1][xPos] != ' ' || gameboard[yPos + 2][xPos] != ' ')
+				return true;
+
+
+		}
+		else if (tilt == 2) {
+
+
+			if (gameboard[yPos + 1][xPos] != ' ')
+				return true;
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 2 + i][xPos + 1] != ' ')
+					return true;
+
+
+		}
+		else if (tilt == 3) {
+
+			if (gameboard[yPos + 1][xPos + 2] != ' ' ||
+				gameboard[yPos + 2][xPos] != ' ')
+				return true;
+
+		}
+
+		return false;
+
+	}
+	
+	void moveRight(Board& board) {
+
+		if (rightBound(board)) return;
+	
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+			gameboard[yPos + 3][xPos + 2] = ' ';
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+			gameboard[yPos + 2][xPos + 1] = ' ';
+
+
+		}
+		else if (tilt == 2) {
+
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 2 + i][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 3) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+
+			gameboard[yPos + 1][xPos + 3] = ' ';
+
+
+		}
+
+		++xPos;
+		print(board);
+
+	}
+	
+	void moveLeft(Board& board) {
+	
+		if (leftBound(board)) return;
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+			gameboard[yPos + 3][xPos + 2] = ' ';
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+			gameboard[yPos + 2][xPos + 1] = ' ';
+
+		}
+		else if (tilt == 2) {
+
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 2 + i][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 3) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+
+			gameboard[yPos + 1][xPos + 3] = ' ';
+
+
+		}
+
+		--xPos;
+		print(board);
+
+	}
+	
+	void rotate(Board& board) {
+
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			// .				// . . .
+			// .		-->		// .
+			// . .				// 
+
+
+			if (gameboard[yPos + 1][xPos + 2] != ' ' || gameboard[yPos + 1][xPos + 3] != ' ')
+				return;
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+			gameboard[yPos + 3][xPos + 2] = ' ';
+
+			tilt = 1;
+
+			delete[] piece;
+
+			piece = new string[2];
+
+			piece[0].push_back(char(177));
+			piece[0].push_back(char(177));
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+
+
+		}
+		else if (tilt == 1) {
+
+
+			// . . .			 //  . .
+			// .			-->  //	   .
+			//					 //    .
+
+			if (gameboard[yPos + 2][xPos + 2] != ' ' ||
+				gameboard[yPos + 3][xPos + 2] != ' ')
+				return;
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+			gameboard[yPos + 2][xPos + 1] = ' ';
+
+			delete[] piece;
+
+			piece = new string[3];
+
+			piece[0].push_back(char(177));
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+			
+			piece[2].push_back(char(177));
+
+			tilt = 2;
+
+		}
+		else if (tilt == 2) {
+
+			//  . .				//	   .
+			//	  .			--> // . . .
+			//    .				//
+			
+			
+			if (gameboard[yPos + 1][xPos + 3] != ' ' ||
+				gameboard[yPos + 2][xPos + 3] != ' ' ||
+				gameboard[yPos + 2][xPos + 1] != ' ')
+				return;
+
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+
+			for (int i = 0; i < 2; i++)
+				gameboard[yPos + 2 + i][xPos + 2] = ' ';
+
+			delete[] piece;
+
+			piece = new string[2];
+
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+			piece[1].push_back(char(177));
+			piece[1].push_back(char(177));
+
+			tilt = 3;
+
+
+		}
+		else if (tilt == 3) {
+
+			//	   .			// .
+			// . . .    -->		// .
+			//					// . .
+
+			if (gameboard[yPos + 1][xPos + 1] != ' ' ||
+				gameboard[yPos + 3][xPos + 1] != ' ' ||
+				gameboard[yPos + 3][xPos + 2] != ' ')
+				return;
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+
+			gameboard[yPos + 1][xPos + 3] = ' ';
+
+			delete[] piece;
+
+			piece = new string[3];
+
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+
+			piece[2].push_back(char(177));
+			piece[2].push_back(char(177));
+
+
+
+			tilt = 0;
+
+
+		}
+
+
+	}
+
+};
+
+
+// The L2 Piece
+class L2 : public Piece {
+
+public:
+
+	L2() {
+
+		piece = new string[3];
+
+		piece[0].push_back(char(177));
+		piece[1].push_back(char(177));
+		piece[2].push_back(char(177));
+		piece[2].push_back(char(177));
+
+	}
+
+	void print(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+
+			for (int i = 0; i < 3; i++) {
+				gameboard[yPos + 1 + i][xPos + 2] = piece[i][0];
+			}
+			gameboard[yPos + 3][xPos + 1] = piece[2][1];
+
+
+		}
+		else if (tilt == 1) {
+
+
+			gameboard[yPos + 1][xPos + 1] = piece[0][0];
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = piece[1][i];
+
+
+		}
+		else if (tilt == 2) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 1] = piece[i][0];
+
+			gameboard[yPos + 1][xPos + 2] = piece[0][1];
+
+
+		}
+		else if (tilt == 3) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = piece[0][i];
+
+			gameboard[yPos + 2][xPos + 3] = piece[1][0];
+
+
+		}
+
+	}
+
+	void moveDown(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+
+
+		}
+		else if (tilt == 1) {
+
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+
+
+		}
+		else if (tilt == 2) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 1] = ' ';
+
+			gameboard[yPos + 1][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 3) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+
+			gameboard[yPos + 2][xPos + 3] = ' ';
+
+
+		}
+
+		++yPos;
+		print(board);
+
+	}
+
+	bool downBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 4][xPos + 1 + i] != ' ')
+					return true;
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 3; i++)
+				if (gameboard[yPos + 3][xPos + 1 + i] != ' ')
+					return true;
+
+		}
+		else if (tilt == 2) {
+
+			if (gameboard[yPos + 2][xPos + 2] != ' ' ||
+				gameboard[yPos + 4][xPos + 1] != ' ')
+				return true;
+
+		}
+		else if (tilt == 3) {
+
+			if (gameboard[yPos + 3][xPos + 3] != ' ' ||
+				gameboard[yPos + 2][xPos + 1] != ' ' ||
+				gameboard[yPos + 2][xPos + 2] != ' ')
+				return true;
+
+		}
+
+		return false;
+
+	}
+
+	bool rightBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			for (int i = 0; i < 3; i++)
+				if (gameboard[yPos + 1 + i][xPos + 3] != ' ')
+					return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 1][xPos + 2] != ' ' ||
+				gameboard[yPos + 2][xPos + 4] != ' ')
+				return true;
+
+		}
+		else if (tilt == 2) {
+
+			if (gameboard[yPos + 1][xPos + 3] != ' ')
+				return true;
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 2 + i][xPos + 2] != ' ')
+					return true;
+
+		}
+		else if (tilt == 3) {
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 1 + i][xPos + 4] != ' ')
+					return true;
+
+
+		}
+
+		return false;
+
+	}
+
+	bool leftBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			if (gameboard[yPos + 3][xPos] != ' ' ||
+				gameboard[yPos + 2][xPos + 1] != ' ' ||
+				gameboard[yPos + 1][xPos + 1] != ' ')
+				return true;
+
+		}
+		else if (tilt == 1) {
+
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 1 + i][xPos] != ' ')
+					return true;
+
+
+		}
+		else if (tilt == 2) {
+
+			for (int i = 0; i < 3; i++)
+				if (gameboard[yPos + 1 + i][xPos] != ' ')
+					return true;
+
+
+		}
+		else if (tilt == 3) {
+
+			if (gameboard[yPos + 1][xPos] != ' ' ||
+				gameboard[yPos + 2][xPos + 2] != ' ')
+				return true;
+
+
+		}
+
+		return false;
+
+	}
+
+	void moveRight(Board& board) {
+
+		if (rightBound(board)) return;
+
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+
+
+		}
+		else if (tilt == 1) {
+
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+
+
+		}
+		else if (tilt == 2) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 1] = ' ';
+
+			gameboard[yPos + 1][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 3) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+
+			gameboard[yPos + 2][xPos + 3] = ' ';
+
+
+		}
+
+		++xPos;
+		print(board);
+
+	}
+
+	void moveLeft(Board& board) {
+
+		if (leftBound(board)) return;
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+
+
+		}
+		else if (tilt == 1) {
+
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+
+
+		}
+		else if (tilt == 2) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 1] = ' ';
+
+			gameboard[yPos + 1][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 3) {
+
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+
+			gameboard[yPos + 2][xPos + 3] = ' ';
+
+
+		}
+
+		--xPos;
+		print(board);
+
+	}
+
+	void rotate(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+
+		if (tilt == 0) {
+
+
+			//   .			// .
+			//   .		--> // . . .
+			// . .			// 
+
+			if (gameboard[yPos + 2][xPos + 3] != ' ' ||
+				gameboard[yPos + 1][xPos + 1] != ' ' ||
+				gameboard[yPos + 2][xPos + 1] != ' ')
+				return;
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+			
+
+			delete[] piece;
+
+			piece = new string[2];
+
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+			piece[1].push_back(char(177));
+			piece[1].push_back(char(177));
+
+			tilt = 1;
+
+
+		}
+		else if (tilt == 1) {
+
+			// .				// . .
+			// . . .	-->		// .
+			//					// .
+
+			if (gameboard[yPos + 3][xPos + 1] != ' ' ||
+				gameboard[yPos + 1][xPos + 2] != ' ')
+				return;
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+
+			delete[] piece;
+
+			piece = new string[3];
+
+			piece[0].push_back(char(177));
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+
+			piece[2].push_back(char(177));
+
+			tilt = 2;
+
+		}
+		else if (tilt == 2) {
+
+			// . .			// . . .
+			// .		-->	//	   .
+			// .			//
+
+			if (gameboard[yPos + 1][xPos + 3] != ' ' ||
+				gameboard[yPos + 2][xPos + 3] != ' ')
+				return;
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1 + i][xPos + 1] = ' ';
+
+			gameboard[yPos + 1][xPos + 2] = ' ';
+
+
+			delete[] piece;
+
+			piece = new string[2];
+
+			piece[0].push_back(char(177));
+			piece[0].push_back(char(177));
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+
+			tilt = 3;
+
+		}
+		else if (tilt == 3) {
+
+			// . . .		//	 .
+			//	   .	--> //	 .
+			//				// . .
+
+			if (gameboard[yPos + 3][xPos + 3] != ' ' ||
+				gameboard[yPos + 3][xPos + 1] != ' ')
+				return;
+
+			for (int i = 0; i < 3; i++)
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+
+			gameboard[yPos + 2][xPos + 3] = ' ';
+
+
+			delete[] piece;
+
+			piece = new string[3];
+
+			piece[0].push_back(char(177));
+			piece[1].push_back(char(177));
+			piece[2].push_back(char(177));
+			piece[2].push_back(char(177));
+
+			tilt = 0;
+
+		}
+
+	}
+
+};
+
+
+// S Piece
+class S : public Piece {
+
+public:
+
+	S() {
+
+		piece = new string[3];
+		
+
+		piece[0].push_back(char(177));
+
+		piece[1].push_back(char(177));
+		piece[1].push_back(char(177));
+
+		piece[2].push_back(char(177));
+
+	}
+	
+	void print(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+
+			gameboard[yPos + 1][xPos + 1] = piece[0][0];
+
+			gameboard[yPos + 2][xPos + 1] = piece[1][0];
+			gameboard[yPos + 2][xPos + 2] = piece[1][1];
+
+			gameboard[yPos + 3][xPos + 2] = piece[2][0];
+
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 2 + i] = piece[0][i];
+				gameboard[yPos + 2][xPos + 1 + i] = piece[1][i];
+			}
+
+		}
+
+	}
+
+	void moveDown(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+			gameboard[yPos + 2][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 2 + i] = ' ';
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+			}
+
+		}
+
+		++yPos;
+		print(board);
+
+	}
+
+	bool downBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			if (gameboard[yPos + 4][xPos + 2] != ' ' ||
+				gameboard[yPos + 3][xPos + 1] != ' ')
+				return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 3][xPos + 1] != ' ' ||
+				gameboard[yPos + 3][xPos + 2] != ' ' ||
+				gameboard[yPos + 2][xPos + 3] != ' ')
+				return true;
+
+		}
+
+		return false;
+	}
+
+	bool rightBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			if (gameboard[yPos + 1][xPos + 2] != ' ')
+				return true;
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 2 + i][xPos + 3] != ' ')
+					return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 1][xPos + 4] != ' ' ||
+				gameboard[yPos + 2][xPos + 3] != ' ')
+				return true;
+
+		}
+
+		return false;
+	}
+
+	bool leftBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 1 + i][xPos] != ' ')
+					return true;
+
+			if (gameboard[yPos + 3][xPos + 1] != ' ')
+				return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 1][xPos + 1] != ' ' ||
+				gameboard[yPos + 2][xPos] != ' ')
+				return true;
+
+		}
+
+		return false;
+	}
+
+	void moveRight(Board& board) {
+
+		if (rightBound(board)) return;
+		
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+			gameboard[yPos + 2][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 2 + i] = ' ';
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+			}
+
+		}
+
+		++xPos;
+		print(board);
+
+	}
+
+	void moveLeft(Board& board) {
+
+		if (leftBound(board)) return;
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+			gameboard[yPos + 2][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 2] = ' ';
+
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 2 + i] = ' ';
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+			}
+
+		}
+
+		--xPos;
+		print(board);
+
+	}
+
+	void rotate(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			// .		//	 . .
+			// . .	--> // . .
+			//	 .		// 
+
+			if (gameboard[yPos + 1][xPos + 2] != ' ' ||
+				gameboard[yPos + 1][xPos + 3] != ' ')
+				return;
+
+			gameboard[yPos + 1][xPos + 1] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+			gameboard[yPos + 2][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 2] = ' ';
+
+			delete[] piece;
+
+			piece = new string[2];
+
+			piece[0].push_back(char(177));
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+			piece[1].push_back(char(177));
+
+			tilt = 1;
+			
+
+		}
+		else if (tilt == 1) {
+
+			// .		//	 . .
+			// . .	--> // . .
+			//	 .		// 
+
+			if (gameboard[yPos + 1][xPos + 1] != ' ' ||
+				gameboard[yPos + 3][xPos + 2] != ' ')
+				return;
+			
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 2 + i] = ' ';
+				gameboard[yPos + 2][xPos + 1 + i] = ' ';
+			}
+
+			delete[] piece;
+
+			piece = new string[3];
+
+
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+			piece[1].push_back(char(177));
+
+			piece[2].push_back(char(177));
+
+			tilt = 0;
+
+
+		}
+
+	}
+
+};
+
+
+// S2 Piece
+
+class S2 : public Piece {
+
+public:
+
+	S2() {
+
+		piece = new string[3];
+
+		piece[0].push_back(char(177));
+
+		piece[1].push_back(char(177));
+		piece[1].push_back(char(177));
+
+		piece[2].push_back(char(177));
+
+	}
+
+	void print(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			gameboard[yPos + 1][xPos + 2] = piece[0][0];
+
+			gameboard[yPos + 2][xPos + 1] = piece[1][0];
+			gameboard[yPos + 2][xPos + 2] = piece[1][1];
+
+			gameboard[yPos + 3][xPos + 1] = piece[0][0];
+
+
+		}
+		else if (tilt == 1) {
+
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 1 + i] = char(177);
+				gameboard[yPos + 2][xPos + 2 + i] = char(177);
+			}
+
+
+		}
+
+	}
+
+	void moveDown(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			gameboard[yPos + 1][xPos + 2] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+			gameboard[yPos + 2][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+				gameboard[yPos + 2][xPos + 2 + i] = ' ';
+			}
+
+		}
+
+		++yPos;
+		print(board);
+
+	}
+
+	bool downBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			if (gameboard[yPos + 4][xPos + 1] != ' ' ||
+				gameboard[yPos + 3][xPos + 2] != ' ')
+				return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 3][xPos + 2] != ' ' ||
+				gameboard[yPos + 3][xPos + 3] != ' ' ||
+				gameboard[yPos + 2][xPos + 1] != ' ')
+				return true;
+
+		}
+
+		return false;
+
+	}
+
+	bool rightBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			if (gameboard[yPos + 3][xPos + 3] != ' ')
+				return true;
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 1 + i][xPos + 3] != ' ')
+					return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 1][xPos + 3] != ' ' ||
+				gameboard[yPos + 2][xPos + 4] != ' ')
+				return true;
+
+		}
+
+		return false;
+
+	}
+
+	bool leftBound(const Board& board) const {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			for (int i = 0; i < 2; i++)
+				if (gameboard[yPos + 2 + i][xPos] != ' ')
+					return true;
+
+			if (gameboard[yPos + 1][xPos] != ' ')
+				return true;
+
+		}
+		else if (tilt == 1) {
+
+			if (gameboard[yPos + 1][xPos] != ' ' ||
+				gameboard[yPos + 2][xPos + 1] != ' ')
+				return true;
+
+		}
+
+		return false;
+
+	}
+
+	void moveRight(Board& board) {
+
+		if (rightBound(board)) return;
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			gameboard[yPos + 1][xPos + 2] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+			gameboard[yPos + 2][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+				gameboard[yPos + 2][xPos + 2 + i] = ' ';
+			}
+
+		}
+
+		++xPos;
+		print(board);
+
+	}
+
+	void moveLeft(Board& board) {
+
+		if (leftBound(board)) return;
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			gameboard[yPos + 1][xPos + 2] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+			gameboard[yPos + 2][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+
+		}
+		else if (tilt == 1) {
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+				gameboard[yPos + 2][xPos + 2 + i] = ' ';
+			}
+
+		}
+
+		--xPos;
+		print(board);
+
+	}
+
+	void rotate(Board& board) {
+
+		string* gameboard = board.getBoard();
+
+		if (tilt == 0) {
+
+			//   .				// . .
+			// . .		-->		//   . .
+			// .				// 
+
+			if (gameboard[yPos + 1][xPos + 1] != ' ' ||
+				gameboard[yPos + 2][xPos + 3] != ' ')
+				return;
+
+			gameboard[yPos + 1][xPos + 2] = ' ';
+
+			gameboard[yPos + 2][xPos + 1] = ' ';
+			gameboard[yPos + 2][xPos + 2] = ' ';
+
+			gameboard[yPos + 3][xPos + 1] = ' ';
+
+			delete[] piece;
+
+			piece = new string[2];
+
+			piece[0].push_back(char(177));
+			piece[0].push_back(char(177));
+
+			piece[1] = piece[0];
+
+			tilt = 1;
+
+		}
+		else if (tilt == 1) {
+
+			//   .				// . .
+			// . .		-->		//   . .
+			// .				// 
+
+			if (gameboard[yPos + 3][xPos + 1] != ' ')
+				return;
+
+			for (int i = 0; i < 2; i++) {
+				gameboard[yPos + 1][xPos + 1 + i] = ' ';
+				gameboard[yPos + 2][xPos + 2 + i] = ' ';
+			}
+
+			delete[] piece;
+
+			piece = new string[3];
+
+			piece[0].push_back(char(177));
+
+			piece[1].push_back(char(177));
+			piece[1].push_back(char(177));
+
+			piece[2].push_back(char(177));
+
+
+			tilt = 0;
+		}
+
+	}
+
+};
+
 // Main Tetris Class
 class Tetris {
 
 private:
 	Board board;
 	unsigned int score;
+	unsigned int speed;
 	
 public:
 
@@ -1268,12 +2795,16 @@ public:
 	// Game Loop Function
 	void init() {
 
+		showMenu();
+
 		Piece* p = nullptr;
+		bool isGameOver = false;
 
-		while (true) {
+		while (true && !isGameOver) {
 
-			int randomPiece = rand() % 3;
-			// int randomPiece = 1;
+			srand(time(NULL));
+			int randomPiece = rand() % 6;
+			// int randomPiece = 6;
 
 
 			if (randomPiece == 0) {
@@ -1285,8 +2816,22 @@ public:
 			else if (randomPiece == 2) {
 				p = new Pyramid;
 			}
+			else if (randomPiece == 3) {
+				p = new L;
+			}
+			else if (randomPiece == 4) {
+				p = new L2;
+			}
+			else if (randomPiece == 5) {
+				p = new S;
+			}
+			else if (randomPiece == 6) {
+				p = new S2;
+			}
 
-			while (!p->downBound(board)) {
+			int rowsTravelled = 0;
+
+			while (!p->downBound(board) && !isGameOver) {
 
 				p->print(board);									// printing the piece on board.
 				board.printBoard();									// printing the board.
@@ -1313,7 +2858,7 @@ public:
 
 				}
 
-				Sleep(100);					// delay function.
+				Sleep(speed);					// delay function.
 
 			}
 
@@ -1321,12 +2866,65 @@ public:
 			score += (100 * board.cleanRows());
 			score += 25;
 
-			board.gotoxy(30, 2);
-			cout << "Score: " << score << endl;
+			isGameOver = board.checkOver();
+
+			board.gotoxy(37, 4);
+			cout << "SCORE: " << score << endl;
 
 			delete p;
 
 		}
+
+		board.gotoxy(37, 5);
+		cout << "GAME OVER!!" << endl;
+		cin.get();
+		cin.get();
+
+	}
+
+
+	void showMenu() {
+		
+		cout << "+ ------------------------------------------------  +" << endl;
+		cout << "+                                                   +" << endl;
+		cout << "+       1. Beginner                                 +" << endl;
+		cout << "+       2. Medium                                   +" << endl;
+		cout << "+       3. Hard                                     +" << endl;
+		cout << "+                                                   +" << endl;
+		cout << "+ ------------------------------------------------  +" << endl;
+
+		int choice = 1;
+
+		cout << ">> ";
+		cin >> choice;
+
+		if (choice == 1)
+			speed = 150;
+		else if (choice == 2)
+			speed = 100;
+		else if (choice == 3)
+			speed = 50;
+		else
+			speed = 150;
+
+		system("cls");
+
+		board.gotoxy(30, 1);
+		cout << char(176)
+			<< char(176)
+			<< char(177)
+			<< char(178)
+			<< "  "
+			<< "T E T R I S"
+			<< " "
+			<< char(178)
+			<< char(177)
+			<< char(176)
+			<< char(176)
+			<< endl;
+
+		
+
 
 	}
 

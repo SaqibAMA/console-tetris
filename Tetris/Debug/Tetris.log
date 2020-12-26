@@ -2,19 +2,23 @@
 D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(83,21): warning C4018: '<': signed/unsigned mismatch
 D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(87,22): warning C4018: '<': signed/unsigned mismatch
 D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(96,23): warning C4018: '<': signed/unsigned mismatch
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(696,22): warning C4309: 'argument': truncation of constant value
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(699,22): warning C4309: 'argument': truncation of constant value
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(700,22): warning C4309: 'argument': truncation of constant value
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(701,22): warning C4309: 'argument': truncation of constant value
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(717,23): warning C4018: '<': signed/unsigned mismatch
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(969,23): warning C4018: '<': signed/unsigned mismatch
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(983,23): warning C4018: '<': signed/unsigned mismatch
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1057,23): warning C4018: '<': signed/unsigned mismatch
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1069,23): warning C4018: '<': signed/unsigned mismatch
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1156,23): warning C4018: '<': signed/unsigned mismatch
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1234,23): warning C4309: 'argument': truncation of constant value
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1237,23): warning C4309: 'argument': truncation of constant value
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1238,23): warning C4309: 'argument': truncation of constant value
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1239,23): warning C4309: 'argument': truncation of constant value
-D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(854): warning C4715: 'Pyramid::downBound': not all control paths return a value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(121,21): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(126,21): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(130,22): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(721,22): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(724,22): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(725,22): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(726,22): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(742,23): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(993,23): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1007,23): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1081,23): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1093,23): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1180,23): warning C4018: '<': signed/unsigned mismatch
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1258,23): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1261,23): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1262,23): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(1263,23): warning C4309: 'argument': truncation of constant value
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(2805,14): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Tetris\main.cpp(878): warning C4715: 'Pyramid::downBound': not all control paths return a value
   Tetris.vcxproj -> D:\FAST\Semester 03\Data Structures\Assignments\Tetris\Debug\Tetris.exe
