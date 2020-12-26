@@ -1,24 +1,31 @@
-#include <iostream>
-#include <string>
-#include <Windows.h>
+#include <iostream>									// For IO.
+#include <string>									// For string processing.
+#include <Windows.h>								// For console graphics.
 
 using namespace std;
 
 // Board Class
 
 class Board {
-		
+
+	// This is the board class.
+	// This manages the board array and allows for easy interaction.
+
+
 private:
-	unsigned int height;								// keeps height.
-	unsigned int width;									// keeps width.
-	string* board;										// keeps the board.
+	unsigned int height;								// keeps height of the board.
+	unsigned int width;									// keeps width of the board.
+	string* board;										// keeps the board array.
 
 public:
 
-	// Making a friend
+	// Making the piece class friend.
+	// This allows us to access private variables easily.
 	friend class Piece;
 
 	// --- GRAPHICS ---
+	// This function uses Windows.h and allows us to
+	// print at any specific coordinate of the screen.
 	void gotoxy(int x, int y) {
 
 		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -76,6 +83,9 @@ public:
 	}
 
 	// Row Cleaning Function
+	// After every move, this function is called to remove
+	// filled rows.
+	// It returns the number of rows that were cleaned for scored addition.
 	int cleanRows() {
 
 		int rowsCleaned = 0;
@@ -116,6 +126,9 @@ public:
 	}
 
 	// Gamer Over Check
+	// This function checks if the game has ended.
+	// Condition 1: If the top row is filled.
+	// Condition 2: If the remaining rows are less than 2.
 	bool checkOver() const {
 
 		for (int i = 1; i < width - 1; i++) {
@@ -168,11 +181,20 @@ public:
 // Piece Class
 class Piece {
 
+	// This is the piece class that acts as an abstract class for
+	// inherited pieces.
+
+	// We are using inheritance to create all of the later pieces
+	// by using this class.
+
 protected:
 	string* piece;										// keeps the actual piece.
 	unsigned int xPos;									// x position of piece.
 	unsigned int yPos;									// y position of piece.
 	int tilt;											// keeps the tilt of the piece.
+
+														// tilt keeps a track of current rotation
+														// of the piece.
 
 public:
 
@@ -187,15 +209,34 @@ public:
 	}
 
 
-	// Printing Function
-	virtual void print(Board& board) = 0;
-	virtual void moveDown(Board& board) = 0;
-	virtual bool downBound(const Board& board) const = 0;
-	virtual bool rightBound(const Board& board) const = 0;
-	virtual bool leftBound(const Board& board) const = 0;
-	virtual void moveRight(Board& board) = 0;
-	virtual void moveLeft(Board& board) = 0;
-	virtual void rotate(Board& board) = 0;
+	// Virtual functions
+	
+	// These functions allow us to use polymorphism.
+	// They have been defined in every inherited class later.
+
+	virtual void print(Board& board) = 0;					// print() function takes the board object and puts
+															// the piece at specific X and Y.
+
+	virtual void moveDown(Board& board) = 0;				// moveDown() function clears the previous position of
+															// the piece and brings the piece one position down.
+
+	virtual bool downBound(const Board& board) const = 0;	// downBound() checks if the piece has reached the down
+															// boundary or not. If not, we can keep on moving down.
+
+	virtual bool rightBound(const Board& board) const = 0;	// rightBound() checks if the piece has reached the right
+															// boundary or not. If not, we can keep on moving right.
+
+	virtual bool leftBound(const Board& board) const = 0;	// leftBound() checks if the piece has reached the left
+															// boundary or not. If not, we can keep on moving left.
+
+	virtual void moveRight(Board& board) = 0;				// It uses the rightBound() function to verify if we can
+															// move right. If yes, then it changes the position of the piece.
+
+	virtual void moveLeft(Board& board) = 0;				// It uses the leftBound() function to verify if we can move
+															// left. If yes, then it changes the position of the piece.
+
+	virtual void rotate(Board& board) = 0;					// This function handles all of the rotations for the pieces.
+
 
 	// Destructor
 	~Piece() {
@@ -214,6 +255,21 @@ public:
 class Stick : public Piece {
 
 public:
+
+	// Check the definition of Piece class to get
+	// an idea about function definition and functionality.
+
+	// We do not need a destructor because parent class handles
+	// all deallocation.
+
+	// Stick ->
+
+	//	.
+	//	.
+	//	.
+	//	.
+
+	// . . . .
 
 	Stick() {
 		
@@ -523,6 +579,17 @@ class Box : public Piece {
 
 public:
 
+	// Check the definition of Piece class to get
+	// an idea about function definition and functionality.
+
+	// We do not need a destructor because parent class handles
+	// all deallocation.
+
+	// Box Piece ->
+
+	//	.	.
+	//	.	.
+
 	Box() {
 
 		piece = new string[2];
@@ -712,6 +779,28 @@ public:
 class Pyramid : public Piece {
 
 public:
+
+	// Check the definition of Piece class to get
+	// an idea about function definition and functionality.
+
+	// We do not need a destructor because parent class handles
+	// all deallocation.
+
+	// Pyramid Piece
+
+	//	 .
+	// . . .
+
+	// .
+	// . .
+	// .
+
+	// . . .
+	//	 .
+
+	//   .
+	// . .
+	//   .
 
 	Pyramid() {
 
@@ -1277,6 +1366,28 @@ class L : public Piece {
 
 public:
 
+	// Check the definition of Piece class to get
+	// an idea about function definition and functionality.
+
+	// We do not need a destructor because parent class handles
+	// all deallocation.
+
+	// L Piece
+
+	// . 
+	// .
+	// . .
+
+	// . . .
+	// .
+
+	// . .
+	//   .
+	//   .
+
+	//     .
+	// . . .
+
 	L() {
 
 		piece = new string[3];
@@ -1754,6 +1865,14 @@ class L2 : public Piece {
 
 public:
 
+	// Check the definition of Piece class to get
+	// an idea about function definition and functionality.
+
+	// We do not need a destructor because parent class handles
+	// all deallocation.
+
+	// L2 is just a mirrored copy of L
+
 	L2() {
 
 		piece = new string[3];
@@ -2217,6 +2336,21 @@ class S : public Piece {
 
 public:
 
+	// Check the definition of Piece class to get
+	// an idea about function definition and functionality.
+
+	// We do not need a destructor because parent class handles
+	// all deallocation.
+
+	// S Piece
+
+	// .
+	// . .
+	//   .
+
+	//    . .
+	//  . .
+
 	S() {
 
 		piece = new string[3];
@@ -2503,6 +2637,14 @@ class S2 : public Piece {
 
 public:
 
+	// Check the definition of Piece class to get
+	// an idea about function definition and functionality.
+
+	// We do not need a destructor because parent class handles
+	// all deallocation.
+
+	// S2 is just a mirrored copy of S piece.
+
 	S2() {
 
 		piece = new string[3];
@@ -2778,9 +2920,9 @@ public:
 class Tetris {
 
 private:
-	Board board;
-	unsigned int score;
-	unsigned int speed;
+	Board board;							// this keeps the main board object.
+	unsigned int score;						// this holds the current score.
+	unsigned int speed;						// this keeps the speed depending on what mode we choose.
 	
 public:
 
@@ -2795,18 +2937,19 @@ public:
 	// Game Loop Function
 	void init() {
 
-		showMenu();
+		showMenu();							// taking the level from user.
 
-		Piece* p = nullptr;
-		bool isGameOver = false;
+		Piece* p = nullptr;					// this is the polymorphic pointer that keeps the piece.
+		bool isGameOver = false;			// this keeps a track if the game is over or not.
 
-		while (true && !isGameOver) {
+		while (true && !isGameOver) {		// run until inifity or until the game is over.
 
 			srand(time(NULL));
-			int randomPiece = rand() % 6;
-			// int randomPiece = 6;
+			int randomPiece = rand() % 7;	// generate a random piece.
 
 
+
+											// this is where a polymorphic object is generated.
 			if (randomPiece == 0) {
 				p = new Stick;
 			}
@@ -2833,45 +2976,45 @@ public:
 
 			while (!p->downBound(board) && !isGameOver) {
 
-				p->print(board);									// printing the piece on board.
+				p->print(board);									// printing the piece on board (polymorphically)
 				board.printBoard();									// printing the board.
 
 
-				if (GetAsyncKeyState(VK_RIGHT) & 0x27000) {
-
-					p->moveRight(board);
-
-				}
-				else if (GetAsyncKeyState(VK_LEFT) & 0x25000) {
-
-					p->moveLeft(board);
+				if (GetAsyncKeyState(VK_RIGHT) & 0x27000) {			// checking if right key has been pressed.
+					
+					p->moveRight(board);							// moving right (polymorphically)
 
 				}
-				else if (GetAsyncKeyState(VK_UP) & 0x26000) {
+				else if (GetAsyncKeyState(VK_LEFT) & 0x25000) {		// checking if the left key has been pressed.
 
-					p->rotate(board);
+					p->moveLeft(board);								// moving left (polymorphically)
+
+				}
+				else if (GetAsyncKeyState(VK_UP) & 0x26000) {		// checking if up key has been pressed.
+
+					p->rotate(board);								// rotating piece (polymorphically)
 
 				}
 				else {
 
-					p->moveDown(board);								// moving the piece down.
+					p->moveDown(board);								// moving the piece down (polymorphically)
 
 				}
 
-				Sleep(speed);					// delay function.
+				Sleep(speed);										// delay function
 
 			}
 
 			board.printBoard();
-			score += (100 * board.cleanRows());
-			score += 25;
+			score += (100 * board.cleanRows());						// if any rows are cleaning, we add 100 * rows to the score.
+			score += 25;											// 25 pts per piece.
 
-			isGameOver = board.checkOver();
+			isGameOver = board.checkOver();							// checking if the game is over.
 
 			board.gotoxy(37, 4);
 			cout << "SCORE: " << score << endl;
 
-			delete p;
+			delete p;												// deleting the polymorphic object.
 
 		}
 
@@ -2883,6 +3026,7 @@ public:
 	}
 
 
+	// This function handles the menu printing
 	void showMenu() {
 		
 		cout << "+ ------------------------------------------------  +" << endl;
@@ -2899,17 +3043,19 @@ public:
 		cin >> choice;
 
 		if (choice == 1)
-			speed = 150;
+			speed = 150;	// beginner
 		else if (choice == 2)
-			speed = 100;
+			speed = 100;	// medium
 		else if (choice == 3)
-			speed = 50;
+			speed = 50;		// hard
 		else
-			speed = 150;
+			speed = 150;	// default
 
-		system("cls");
+		system("cls");		// clearing screen.
 
-		board.gotoxy(30, 1);
+
+		
+		board.gotoxy(30, 1);	// tetris logo
 		cout << char(176)
 			<< char(176)
 			<< char(177)
@@ -2939,8 +3085,8 @@ public:
 
 int main() {
 
-	Tetris game;
-	game.init();
+	Tetris game;		// game object
+	game.init();		// initializer function
 
 
 	return 0;
