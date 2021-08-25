@@ -1,7 +1,7 @@
 # Console Tetris
 
 ## TL;DR
-This is a simple Tetris game that I made in third semester for a client. The major goal was to keep the code at basic level so that the client could understand it and present it.
+This is a simple Tetris game that I made in third semester. 
 
 ### How to use this?
 
